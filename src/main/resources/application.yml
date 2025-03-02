@@ -1,0 +1,11 @@
+spring:
+    profiles:
+        active: local
+    jpa:
+        properties:
+            hibernate:
+                format_sql: true
+                dialect: org.hibernate.dialect.MySQL8Dialect
+        hibernate:
+            ddl-auto: none
+        database: mysql
