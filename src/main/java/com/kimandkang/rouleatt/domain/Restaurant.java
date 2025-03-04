@@ -36,9 +36,5 @@ public class Restaurant {
 
     @Column(name = "road_address")
     private String roadAddress;
-
-    public String getLocation() {
-        return coordinate.toText();
-    }
 }
 
