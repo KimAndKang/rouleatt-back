@@ -5,7 +5,8 @@ import com.kimandkang.rouleatt.domain.Restaurant;
 public record RestaurantResponse(
         Long id,
         String name,
-        String location,
+        double x,
+        double y,
         String category,
         String address,
         String roadAddress
@@ -14,7 +15,8 @@ public record RestaurantResponse(
         return new RestaurantResponse(
                 restaurant.getId(),
                 restaurant.getName(),
-                restaurant.getLocation(),
+                restaurant.getCoordinate().getX(),
+                restaurant.getCoordinate().getY(),
                 restaurant.getCategory(),
                 restaurant.getAddress(),
                 restaurant.getRoadAddress()
