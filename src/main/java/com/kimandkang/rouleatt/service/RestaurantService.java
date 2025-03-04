@@ -3,7 +3,6 @@ package com.kimandkang.rouleatt.service;
 import com.kimandkang.rouleatt.domain.Restaurant;
 import com.kimandkang.rouleatt.dto.RestaurantResponses;
 import com.kimandkang.rouleatt.repository.RestaurantRepository;
-import com.kimandkang.rouleatt.utils.RestaurantUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
