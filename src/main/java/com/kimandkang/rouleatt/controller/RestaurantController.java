@@ -20,9 +20,9 @@ public class RestaurantController {
     public RestaurantResponses findNearbyRestaurants(
             @RequestParam double x,
             @RequestParam double y,
-            @RequestParam(defaultValue = "100", name = "d") double distance,
-            @RequestParam(required = false, name = "e") List<String> exclusions
+            @RequestParam(defaultValue = "100", name = "distance") double distance,
+            @RequestParam(required = false, name = "exclude") String exclude
     ) {
-        return restaurantService.findNearbyRestaurants(x, y, distance, exclusions);
+        return restaurantService.findNearbyRestaurants(x, y, distance, exclude);
     }
 }

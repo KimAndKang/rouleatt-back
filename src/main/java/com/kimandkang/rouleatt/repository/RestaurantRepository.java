@@ -13,7 +13,7 @@ public class RestaurantRepository {
 
     private final EntityManager em;
 
-    public List<Restaurant> findNearbyRestaurants(double x, double y, double distance, List<String> excepts) {
+    public List<Restaurant> findNearbyRestaurants(double x, double y, double distance, List<String> exclude) {
         StringBuilder sql = new StringBuilder("""
             SELECT * FROM restaurant r
             WHERE ST_Contains(
@@ -23,8 +23,8 @@ public class RestaurantRepository {
                 r.coordinate)
             """);
 
-        if (excepts != null && !excepts.isEmpty()) {
-            for (int i = 0; i < excepts.size(); i++) {
+        if (exclude != null && !exclude.isEmpty()) {
+            for (int i = 0; i < exclude.size(); i++) {
                 sql.append(" AND r.category NOT LIKE :except").append(i);
             }
         }
@@ -34,9 +34,9 @@ public class RestaurantRepository {
         query.setParameter("y", y);
         query.setParameter("distance", distance);
 
-        if (excepts != null && !excepts.isEmpty()) {
-            for (int i = 0; i < excepts.size(); i++) {
-                query.setParameter("except" + i, "%" + excepts.get(i) + "%");
+        if (exclude != null && !exclude.isEmpty()) {
+            for (int i = 0; i < exclude.size(); i++) {
+                query.setParameter("except" + i, "%" + exclude.get(i) + "%");
             }
         }
 
