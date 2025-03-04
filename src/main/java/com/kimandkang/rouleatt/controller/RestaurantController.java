@@ -1,6 +1,6 @@
 package com.kimandkang.rouleatt.controller;
 
-import com.kimandkang.rouleatt.dto.RestaurantResponse;
+import com.kimandkang.rouleatt.dto.RestaurantResponses;
 import com.kimandkang.rouleatt.service.RestaurantService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +17,12 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/nearby")
-    public List<RestaurantResponse> findNearbyRestaurants(
+    public RestaurantResponses findNearbyRestaurants(
             @RequestParam double x,
             @RequestParam double y,
-            @RequestParam(defaultValue = "500", name = "d") double distance
+            @RequestParam(defaultValue = "500", name = "d") double distance,
+            @RequestParam(required = false, name = "e") List<String> exclusions
     ) {
-        return restaurantService.findNearbyRestaurants(x, y, distance);
+        return restaurantService.findNearbyRestaurants(x, y, distance, exclusions);
     }
 }
