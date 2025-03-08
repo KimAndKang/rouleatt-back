@@ -21,7 +21,7 @@ public class RestaurantController {
             @RequestParam double x,
             @RequestParam double y,
             @RequestParam(defaultValue = "100", name = "distance") double distance,
-            @RequestParam(required = false, name = "exclude") String exclude
+            @RequestParam(required = false, name = "exclude") List<String> exclude
     ) {
         return restaurantService.findNearbyRestaurants(x, y, distance, exclude);
     }
