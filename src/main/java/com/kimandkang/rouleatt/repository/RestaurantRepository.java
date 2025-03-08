@@ -1,45 +1,25 @@
 package com.kimandkang.rouleatt.repository;
 
 import com.kimandkang.rouleatt.domain.Restaurant;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-@Repository
-@RequiredArgsConstructor
-public class RestaurantRepository {
+public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
 
-    private final EntityManager em;
-
-    public List<Restaurant> findNearbyRestaurants(double x, double y, double distance, List<String> excepts) {
-        StringBuilder sql = new StringBuilder("""
-            SELECT * FROM restaurant r
-            WHERE ST_Contains(
-                (ST_Buffer(
-                    ST_GeomFromText(CONCAT('POINT(', :y, ' ', :x, ')'), 4326),
-                    :distance)),
-                r.coordinate)
-            """);
-
-        if (excepts != null && !excepts.isEmpty()) {
-            for (int i = 0; i < excepts.size(); i++) {
-                sql.append(" AND r.category NOT LIKE :except").append(i);
-            }
-        }
-
-        Query query = em.createNativeQuery(sql.toString(), Restaurant.class);
-        query.setParameter("x", x);
-        query.setParameter("y", y);
-        query.setParameter("distance", distance);
-
-        if (excepts != null && !excepts.isEmpty()) {
-            for (int i = 0; i < excepts.size(); i++) {
-                query.setParameter("except" + i, "%" + excepts.get(i) + "%");
-            }
-        }
-
-        return query.getResultList();
-    }
+    @Query(value = """
+                SELECT *
+                FROM restaurant r
+                WHERE ST_Contains(
+                    (ST_Buffer(ST_GeomFromText(CONCAT('POINT(', :y, ' ', :x, ')'), 4326), :distance)),
+                    r.coordinate) 
+                    AND r.category NOT IN :exclude
+            """, nativeQuery = true)
+    List<Restaurant> findNearbyRestaurants(
+            @Param("x") double x,
+            @Param("y") double y,
+            @Param("distance") double distance,
+            @Param("exclude") List<String> exclude
+    );
 }

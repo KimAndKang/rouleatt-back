@@ -15,8 +15,8 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional(readOnly = true)
-    public RestaurantResponses findNearbyRestaurants(double x, double y, double distance, List<String> exclusions) {
-        List<Restaurant> restaurants = restaurantRepository.findNearbyRestaurants(x, y, distance, exclusions);
+    public RestaurantResponses findNearbyRestaurants(double x, double y, double distance, List<String> exclude) {
+        List<Restaurant> restaurants = restaurantRepository.findNearbyRestaurants(x, y, distance, exclude);
         return RestaurantResponses.from(restaurants);
     }
 }
