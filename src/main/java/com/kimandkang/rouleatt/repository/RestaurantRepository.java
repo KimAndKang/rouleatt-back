@@ -13,10 +13,23 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
                 FROM restaurant r
                 WHERE ST_Contains(
                     (ST_Buffer(ST_GeomFromText(CONCAT('POINT(', :y, ' ', :x, ')'), 4326), :distance)),
+                    r.coordinate)
+            """, nativeQuery = true)
+    List<Restaurant> findNearbyRestaurantsWithoutExclude(
+            @Param("x") double x,
+            @Param("y") double y,
+            @Param("distance") double distance
+    );
+
+    @Query(value = """
+                SELECT *
+                FROM restaurant r
+                WHERE ST_Contains(
+                    (ST_Buffer(ST_GeomFromText(CONCAT('POINT(', :y, ' ', :x, ')'), 4326), :distance)),
                     r.coordinate) 
                     AND r.category NOT IN :exclude
             """, nativeQuery = true)
-    List<Restaurant> findNearbyRestaurants(
+    List<Restaurant> findNearbyRestaurantsWithExclude(
             @Param("x") double x,
             @Param("y") double y,
             @Param("distance") double distance,

@@ -23,6 +23,15 @@ public class RestaurantController {
             @RequestParam(defaultValue = "100", name = "distance") double distance,
             @RequestParam(required = false, name = "exclude") List<String> exclude
     ) {
-        return restaurantService.findNearbyRestaurants(x, y, distance, exclude);
+        // 거리가 벗어날 경우
+        if (distance < 100 || distance > 1000) {
+            distance = 100;
+        }
+        // 제외할 카테고리가 존재하지 않을 경우
+        if (exclude == null || exclude.isEmpty()) {
+            return restaurantService.findNearbyRestaurantsWithoutExclude(x, y, distance);
+        }
+        // 제외할 카테고리가 존재할 경우
+        return restaurantService.findNearbyRestaurantsWithExclude(x, y, distance, exclude);
     }
 }
