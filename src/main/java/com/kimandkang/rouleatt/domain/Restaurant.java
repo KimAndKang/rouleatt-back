@@ -47,12 +47,15 @@ public class Restaurant {
     @Column(name = "road_address")
     private String roadAddress;
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     List<Menu> menus = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     List<BizHour> bizHours = new ArrayList<>();
 }
