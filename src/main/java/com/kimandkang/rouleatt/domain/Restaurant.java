@@ -1,10 +1,18 @@
 package com.kimandkang.rouleatt.domain;
 
+import static jakarta.persistence.GenerationType.*;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +33,8 @@ public class Restaurant {
     @Id
     private Long id;
 
+    private String rid;
+
     private String name;
 
     @Column(nullable = false, columnDefinition = "POINT SRID 4326")
@@ -36,5 +46,17 @@ public class Restaurant {
 
     @Column(name = "road_address")
     private String roadAddress;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant")
+    List<Menu> menus = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant")
+    List<Review> reviews = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant")
+    List<BizHour> bizHours = new ArrayList<>();
 }
 

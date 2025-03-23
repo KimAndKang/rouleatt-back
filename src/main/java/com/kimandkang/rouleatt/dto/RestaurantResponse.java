@@ -1,6 +1,10 @@
 package com.kimandkang.rouleatt.dto;
 
 import com.kimandkang.rouleatt.domain.Restaurant;
+import com.kimandkang.rouleatt.utils.BizHourUtils;
+import com.kimandkang.rouleatt.utils.MenuUtils;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public record RestaurantResponse(
         Long id,
@@ -9,9 +13,14 @@ public record RestaurantResponse(
         double y,
         String category,
         String address,
-        String roadAddress
+        String roadAddress,
+        String isOpen,
+        String avgPrice,
+        List<MenuResponse> menus,
+        List<ReviewResponse> reviews,
+        List<BizHourResponse> bizHours
 ) {
-    public static RestaurantResponse from(Restaurant restaurant) {
+    public static RestaurantResponse from(Restaurant restaurant, LocalDateTime now) {
         return new RestaurantResponse(
                 restaurant.getId(),
                 restaurant.getName(),
@@ -19,7 +28,14 @@ public record RestaurantResponse(
                 restaurant.getCoordinate().getY(),
                 restaurant.getCategory(),
                 restaurant.getAddress(),
-                restaurant.getRoadAddress()
+                restaurant.getRoadAddress(),
+                BizHourUtils.isOpen(restaurant, now),
+                MenuUtils.avgPrice(restaurant),
+                restaurant.getMenus().stream().map(MenuResponse::from).toList(),
+                restaurant.getReviews().stream().map(ReviewResponse::from).toList(),
+                BizHourUtils.sortBizHours(restaurant.getBizHours())
         );
     }
+
+
 }
