@@ -1,5 +1,7 @@
 package com.kimandkang.rouleatt.controller;
 
+import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME;
+
 import com.kimandkang.rouleatt.dto.RestaurantResponses;
 import com.kimandkang.rouleatt.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,17 +36,8 @@ public class RestaurantController {
             @Parameter(description = "제외할 카테고리", example = "오리요리,생선회")
             @RequestParam(required = false) List<String> exclude,
             @Parameter(description = "요청 시각", example = "2025-03-22T15:30:00")
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime now
+            @RequestParam(required = false) @DateTimeFormat(iso = DATE_TIME) LocalDateTime now
     ) {
-        // 거리가 벗어날 경우
-        if (d < 100 || d > 1000) {
-            d = 100;
-        }
-        // 제외할 카테고리가 존재하지 않을 경우
-        if (exclude == null || exclude.isEmpty()) {
-            return restaurantService.findNearbyRestaurantsWithoutExclude(x, y, d, now);
-        }
-        // 제외할 카테고리가 존재할 경우
-        return restaurantService.findNearbyRestaurantsWithExclude(x, y, d, exclude, now);
+        return restaurantService.findNearbyRestaurants(x, y, d, exclude, now);
     }
 }
