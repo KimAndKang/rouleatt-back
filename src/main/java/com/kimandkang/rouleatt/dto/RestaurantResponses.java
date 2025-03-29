@@ -1,6 +1,7 @@
 package com.kimandkang.rouleatt.dto;
 
 import com.kimandkang.rouleatt.domain.Restaurant;
+import com.kimandkang.rouleatt.utils.RestaurantUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ public record RestaurantResponses(
     public static RestaurantResponses from(List<Restaurant> restaurants, LocalDateTime now) {
 
         Set<String> categories = restaurants.stream()
-                .map(restaurant -> restaurant.getCategory())
+                .map(restaurant -> RestaurantUtils.normalize(restaurant.getCategory()))
                 .collect(Collectors.toSet());
 
         List<RestaurantResponse> restaurantResponses = restaurants.stream()

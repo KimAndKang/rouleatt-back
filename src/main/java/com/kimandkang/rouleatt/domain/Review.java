@@ -1,11 +1,7 @@
 package com.kimandkang.rouleatt.domain;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -33,12 +29,12 @@ public class Review {
 
     private String type;
 
-    @Column(name = "review_url")
-    private String reviewUrl;
+    private String url;
 
     private String title;
 
-    private String idx;
+    @Column(name = "review_idx")
+    private String reviewIdx;
 
     private String content;
 
@@ -52,9 +48,9 @@ public class Review {
     private String createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id") // FK
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "review") // 주인 표시
+    @OneToMany(mappedBy = "review")
     private List<ReviewImage> reviewImages;
 }

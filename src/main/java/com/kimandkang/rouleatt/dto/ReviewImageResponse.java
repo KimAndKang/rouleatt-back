@@ -4,12 +4,12 @@ import com.kimandkang.rouleatt.domain.ReviewImage;
 
 public record ReviewImageResponse(
         Long id,
-        String url
+        String thumbnailUrl
 ) {
     public static ReviewImageResponse from(ReviewImage image) {
         return new ReviewImageResponse(
                 image.getId(),
-                image.getImageUrl()
+                image.getThumbnailUrl()
         );
     }
 }

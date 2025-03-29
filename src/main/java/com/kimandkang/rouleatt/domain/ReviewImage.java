@@ -1,10 +1,7 @@
 package com.kimandkang.rouleatt.domain;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,8 +23,8 @@ public class ReviewImage {
     @Id
     private Long id;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "thumbnail_url")
+    private String thumbnailUrl;
 
     @ManyToOne
     @JoinColumn(name = "review_id")
