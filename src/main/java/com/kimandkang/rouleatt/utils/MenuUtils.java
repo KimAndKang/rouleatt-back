@@ -5,7 +5,7 @@ import com.kimandkang.rouleatt.domain.Restaurant;
 
 public class MenuUtils {
 
-    private static final String NO_MENU_RECOMMENDED = "가격 정보 없음";
+    private static final String NO_MENU_RECOMMENDED = "가격 정보가 없어요";
 
     public static String avgPrice(Restaurant restaurant) {
         return restaurant.getMenus().stream()

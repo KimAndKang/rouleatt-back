@@ -9,7 +9,7 @@ public record MenuResponse(
         String price,
         boolean isRecommended,
         String description,
-        int idx,
+        int menuIdx,
         List<MenuImageResponse> menuImages
 ) {
     public static MenuResponse from(Menu menu) {
@@ -19,7 +19,7 @@ public record MenuResponse(
                 menu.getPrice(),
                 menu.isRecommended(),
                 menu.getDescription(),
-                menu.getIdx(),
+                menu.getMenuIdx(),
                 menu.getMenuImages().stream().map(MenuImageResponse::from).toList()
         );
     }

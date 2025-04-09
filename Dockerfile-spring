@@ -4,6 +4,10 @@ COPY . .
 RUN ./gradlew bootJar
 
 FROM bellsoft/liberica-openjdk-debian:21
+
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]

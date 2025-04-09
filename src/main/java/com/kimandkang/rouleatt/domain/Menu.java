@@ -38,12 +38,13 @@ public class Menu {
 
     private String description;
 
-    private int idx;
+    @Column(name = "menu_idx")
+    private int menuIdx;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id") // FK
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "menu") // 주인 표시
+    @OneToMany(mappedBy = "menu")
     private List<MenuImage> menuImages;
 }
