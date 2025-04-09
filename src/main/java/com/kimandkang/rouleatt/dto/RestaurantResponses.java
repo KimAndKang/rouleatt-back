@@ -6,21 +6,34 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public record RestaurantResponses(
         Set<String> categories,
-        List<RestaurantResponse> restaurants
+        List<RestaurantResponse> restaurants,
+        int page,
+        int size,
+        long totalElements,
+        int totalPages,
+        boolean isLast
 ) {
-    public static RestaurantResponses from(List<Restaurant> restaurants, LocalDateTime now) {
+    public static RestaurantResponses from(Set<String> categories, Page<Restaurant> page, LocalDateTime now) {
 
-        Set<String> categories = restaurants.stream()
-                .map(restaurant -> RestaurantUtils.normalize(restaurant.getCategory()))
+        Set<String> normalizedCategories = categories.stream()
+                .map(category -> RestaurantUtils.normalize(category))
                 .collect(Collectors.toSet());
 
-        List<RestaurantResponse> restaurantResponses = restaurants.stream()
+        List<RestaurantResponse> restaurantResponses = page.getContent().stream()
                 .map(restaurant -> RestaurantResponse.from(restaurant, now))
                 .toList();
 
-        return new RestaurantResponses(categories, restaurantResponses);
+        return new RestaurantResponses(
+                normalizedCategories,
+                restaurantResponses,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isLast());
     }
 }

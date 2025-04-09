@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +37,10 @@ public class RestaurantController {
             @Parameter(description = "제외할 카테고리", example = "오리요리,생선회")
             @RequestParam(required = false) List<String> exclude,
             @Parameter(description = "요청 시각", example = "2025-03-22T15:30:00")
-            @RequestParam(required = false) @DateTimeFormat(iso = DATE_TIME) LocalDateTime now
+            @RequestParam(required = false) @DateTimeFormat(iso = DATE_TIME) LocalDateTime now,
+            @Parameter(description = "페이지네이션", example = "&page=0&size=10")
+            Pageable pageable
     ) {
-        return restaurantService.findNearbyRestaurants(x, y, d, exclude, now);
+        return restaurantService.findNearbyRestaurants(x, y, d, exclude, now, pageable);
     }
 }
